@@ -3,6 +3,7 @@
 #include <hiduniversal.h>
 #include <hidboot.h>
 #include <SPI.h>
+#include <avr/wdt.h>
 #define SEG 1000
 #define TOTAL_TIME 720
 #define MAX_CODES 100
@@ -149,6 +150,7 @@ void setup()
   }
 
   Serial.begin(115200);
+  wdt_enable(WDTO_1S);
 
   if (Usb.Init() == -1)
   {
@@ -163,6 +165,7 @@ void setup()
 
 void loop()
 {
+  wdt_reset();
   if ((millis() - ultima_execucao > SEG))
   {
     ultima_execucao = millis();
